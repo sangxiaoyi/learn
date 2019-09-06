@@ -1,0 +1,46 @@
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+apply plugin: 'idea'
+
+group 'grpc.test'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven { url "https://maven.aliyun.com/repository/central/" }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "io.grpc:grpc-netty:1.10.0"
+    compile "io.grpc:grpc-protobuf:1.10.0"
+    compile "io.grpc:grpc-stub:1.10.0"
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.0-pre2'
+        }
+    }
+    generateProtoTasks {
+        ofSourceSet('main')*.plugins {
+            grpc { }
+        }
+    }
+}
+
+buildscript {
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/central/" }
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.4'
+    }
+}
+//执行gradle build就可以生成java文件了，文件目录在build\generated\source\proto\main
+//网址https://www.jianshu.com/p/ffc4695134cc
