@@ -1,4 +1,4 @@
-package rpc;
+package rpc.server;
 
 /**
  * @author
@@ -6,4 +6,5 @@ package rpc;
  * @date
  */
 public interface EchoService {
+    String echo(String ping);
 }
